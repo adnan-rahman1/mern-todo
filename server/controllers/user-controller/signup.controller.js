@@ -11,7 +11,11 @@ module.exports = async (req, res) => {
             let newUser = { ...req.body };
             let createUser = await new User(newUser);
             await createUser.save();
-            res.send('user created successfully');
+            res.send({
+                firstName: newUser.firstName,
+                lastName: newUser.lastName,
+                email: newUser.email
+            });
         }
         
     } catch (err) {
