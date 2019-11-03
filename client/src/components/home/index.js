@@ -1,21 +1,10 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 
-class Home extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                <h2>Welcome to Home</h2>
-            </div>
-        )
-    }
-}
-
+const Home = (props) => (
+    <div>
+        { props.isLoggedIn ? <h2>Welcome to Home</h2> : <Redirect to="/signin" /> }
+    </div>
+)
 export default Home;

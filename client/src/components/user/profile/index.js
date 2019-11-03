@@ -1,9 +1,10 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 
-const UserProfile = () => (
+const UserProfile = ({ isLoggedIn }) => (
     <div>
-        <h2>User Profile</h2>
+        { isLoggedIn ? <h2>Profile</h2> : <Redirect to="/signin" /> }
     </div>
 );
 

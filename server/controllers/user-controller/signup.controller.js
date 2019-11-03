@@ -6,7 +6,10 @@ module.exports = async (req, res) => {
             email: req.body.email
         });
         if (isUserExist)
-            res.send('user exist');
+            res.send({
+                msg: "User already exists",
+                duplicateUser: true
+            });
         else {
             let newUser = { ...req.body };
             let createUser = await new User(newUser);
@@ -14,7 +17,8 @@ module.exports = async (req, res) => {
             res.send({
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
-                email: newUser.email
+                email: newUser.email,
+                msg: "You successfully registered"
             });
         }
         
