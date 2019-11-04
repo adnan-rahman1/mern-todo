@@ -18,7 +18,8 @@ module.exports = async (req, res) => {
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
                 email: newUser.email,
-                msg: "You successfully registered"
+                msg: "You successfully registered",
+                duplicateUser: false
             });
         }
         

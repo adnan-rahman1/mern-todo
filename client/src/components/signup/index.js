@@ -8,7 +8,6 @@ class SignUp extends React.Component {
         super(props);
         this.state = {
             msg: "Please sign up before you continue",
-            duplicateUser: false,
             redirect: false,
         }
     }
@@ -34,10 +33,6 @@ class SignUp extends React.Component {
     render() {
         return (
             <div>
-                {   
-                    this.state.redirect && <Redirect to={{ pathname: "/signin", msg: this.state.msg }} /> 
-                }
-
                 <h2>Sign Up</h2>
                 <p>{ this.state.redirect || this.state.msg  }</p>
                 <form onSubmit={e => this.userRegistered(e)}>
@@ -47,6 +42,9 @@ class SignUp extends React.Component {
                     <input type="password" name="password" placeholder="Password" required/><br/>
                     <button>Sign Up</button>
                 </form>
+                {   
+                    this.state.redirect && <Redirect to={{ pathname: "/signin", msg: this.state.msg }} /> 
+                }
             </div>
         )
     }
