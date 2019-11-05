@@ -25,7 +25,15 @@ class Home extends React.Component {
             const res = await axios.post("http://localhost:5000/todo/create/", {
                 title: e.target.todo.value
             });
-            // e.target.reset();
+            this.setState({ ...res.data });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    deleteTodo = async (e) => {
+        try {
+            const res = await axios.delete(`http://localhost:5000/todo/${e.target.value}`);
             this.setState({ ...res.data });
         } catch (err) {
             console.log(err);
@@ -45,7 +53,7 @@ class Home extends React.Component {
                 <ol>
                     {
                        todos.map(todo => (
-                           <li key={todo._id}>{ todo.title }&nbsp;<button onClick={e => console.log(e.target.value)} value={todo._id}>x</button></li>
+                           <li key={todo._id}>{ todo.title }&nbsp;<button>Edit</button>&nbsp;<button onClick={this.deleteTodo} value={todo._id}>x</button></li>
                        )) 
                     }
                 </ol>
