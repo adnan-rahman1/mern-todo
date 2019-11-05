@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
 const route = require('./routes/user');
+const todoRoute = require('./routes/todo/');
 
 // Mongodb
 require('./db');
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 
 
 app.use('/user', route);
+app.use('/todo', todoRoute);
 
 // app.get("/", (req, res) => {
 //     const user = {
