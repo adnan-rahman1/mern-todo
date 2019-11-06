@@ -4,14 +4,13 @@ const auth = require('../middleware/auth');
 
 // CONTROLLERS
 const signUpController = require('../../controllers/user-controller/signup.controller');
+const signInController = require('../../controllers/user-controller/signin.controller');
 
 // SIGN UP
 router.post('/signup', signUpController);
 
 // SIGN IN
-router.post('/signin', (req, res) => {
-    res.send('<h1>User login successfully</h1>');
-});
+router.post('/signin', signInController);
 
 // SIGN OUT 
    router.post('/signout', (req, res) => {

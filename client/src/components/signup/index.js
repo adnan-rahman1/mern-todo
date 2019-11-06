@@ -21,10 +21,11 @@ class SignUp extends React.Component {
                 email: e.target.email.value,
                 password: e.target.password.value,
             });
+            this.setState({ msg: res.data.msg })
             if(!res.data.duplicateUser) {
                 this.setState({ redirect: true });
             }
-            this.setState({ msg: res.data.msg })
+            
         } catch (err) {
             this.setState({ msg: err })
         }
@@ -35,7 +36,7 @@ class SignUp extends React.Component {
             <div>
                 <h2>Sign Up</h2>
                 <p>{ this.state.redirect || this.state.msg  }</p>
-                <form onSubmit={e => this.userRegistered(e)}>
+                <form onSubmit={this.userRegistered}>
                     <input type="text" name="firstName" placeholder="First Name" required/><br/>
                     <input type="text" name="lastName" placeholder="Last Name" required/><br/>
                     <input type="email" name="email" placeholder="Email" required/><br/>

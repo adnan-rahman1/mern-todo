@@ -1,4 +1,17 @@
+const bcryptjs = require('bcryptjs');
 const User = require('../../models/user/User');
+
+// Generate Encrypt Password
+const generateHashPassWord = async (pass) => {
+    // generate random salt
+    let salt = await bcryptjs.genSalt(10); 
+    
+    // generate hashPassword from original password and salt
+    let hashPass = await bcryptjs.hash(pass,salt);
+
+    return hashPass;
+}
+// End
 
 module.exports = async (req, res) => {
     try {
@@ -11,6 +24,10 @@ module.exports = async (req, res) => {
                 duplicateUser: true
             });
         else {
+            // Generate Encrypt Password
+            req.body.password = await generateHashPassWord(req.body.password);
+            // End 
+
             let newUser = { ...req.body };
             let createUser = await new User(newUser);
             await createUser.save();
