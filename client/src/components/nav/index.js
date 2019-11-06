@@ -16,6 +16,7 @@ class NavBar extends React.Component {
                 <Header />
                 <ul>
                     <li><NavLink exact to="/" activeStyle={{ fontWeight: "bold", color: "blue" }}>Home</NavLink></li>
+                    <li><NavLink to="/todo" activeStyle={{ fontWeight: "bold", color: "blue" }}>Todo</NavLink></li>
                     <li><NavLink to="/profile" activeStyle={{ fontWeight: "bold", color: "blue" }}>Profile</NavLink></li>
                     <li><NavLink to="/signin" activeStyle={{ fontWeight: "bold", color: "blue" }}>Sign In</NavLink></li>
                     <li><NavLink to="/signup" activeStyle={{ fontWeight: "bold", color: "blue" }}>Sign Up</NavLink></li>

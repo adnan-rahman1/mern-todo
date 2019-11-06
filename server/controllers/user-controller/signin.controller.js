@@ -1,17 +1,19 @@
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
+const dotenv = require('dotenv');
+dotenv.config()
 
 const User = require('../../models/user/User');
 
 // Compare Password with Request Password
 const checkIfPassMatch = async (reqPassword, password) => {
-    return await bcryptjs.compare(reqPassword, password);
+    return await bcryptjs.compare(reqPassword, password); // return true if password matched
 }
 // End
 
 // Generate JSON WEB TOKEN
-const generateWebToken = () => {
-    console.log("Generating json web token");
+const generateWebToken = async (id) => {
+    return await jwt.sign({ id }, process.env.JWT_PRIVATE_KEY ); // return jwt token
 }
 // END
 
@@ -26,18 +28,18 @@ module.exports = async (req, res) => {
             });
         }
         else {
-            const { email, firstName, lastName, password } = isUserExist;
-            if(!await checkIfPassMatch(req.body.password, password)){ // Check if the password match
+            const { _id, firstName, lastName, password } = isUserExist;
+            if (!await checkIfPassMatch(req.body.password, password)) { // Check if the password match
                 res.send({
                     msg: "Password Doesn't Matched",
                 });
             }
             else {
-                const token = generateWebToken(); // Generate JSON WEB TOKEN\
+                const token = await generateWebToken(_id); // Generate JSON WEB TOKEN
                 res.send({
-                    email,
                     firstName,
                     lastName,
+                    token,
                 });
             }
         }

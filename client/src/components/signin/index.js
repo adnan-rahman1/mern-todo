@@ -18,7 +18,7 @@ class SignIn extends React.Component {
                 password: e.target.password.value
             });
             this.setState({ msg: res.data.msg })
-            console.log(res.data);
+            localStorage.setItem('token', res.data.token);
         } catch(err) {
             this.setState({ msg: 'There is something wrong. Try again...' });
         }
