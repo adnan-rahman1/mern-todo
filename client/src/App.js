@@ -17,8 +17,12 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      msg: "",
       isLoggedIn: true,
       todos: [],
+      firstName: "",
+      lastName: "",
+      redirect: false,
     }
   }
 
@@ -27,20 +31,73 @@ class App extends React.Component {
         this.setState({ ...todos.data });
   }
 
-  allTodos = (todos) => {
+  setRedirect = () => {
+    this.setState({ redirect: !this.state.redirect });
+  }
+
+  notificationMsg = (msg) => {
+    this.setState({ msg });
+  }
+
+  signOut = () => {
+    localStorage.removeItem('token');
+    this.setState({ isLoggedIn: false });
+  }
+
+  getAllTodos = (todos) => {
     this.setState({ ...todos });
   }
 
   render() {
     return (
       <BrowserRouter>
-          <Nav />
+          <Nav isLoggedIn={this.state.isLoggedIn} signOut={this.signOut} setMsg={this.notificationMsg} />
           <Switch>
-            <Route exact path="/" component={() => <Home todos={this.state.todos}/> } />
-            <Route path="/todo" component={() => <Todo todos={this.state.todos} getTodos={this.allTodos} isLoggedIn={this.state.isLoggedIn} /> }/>
-            <Route path="/profile" component={() => <UserProfile isLoggedIn={this.state.isLoggedIn} /> } />
-            <Route path="/signup" component={SignUp} />
-            <Route path="/signin" component={SignIn} />
+            <Route 
+              exact 
+              path="/" 
+              component={() => 
+                <Home 
+                  todos={this.state.todos}/> 
+              } 
+            />
+
+            <Route 
+              path="/todo" 
+              component={() => 
+                <Todo 
+                  todos={this.state.todos} 
+                  getAllTodos={this.getAllTodos} 
+                  isLoggedIn={this.state.isLoggedIn} /> 
+              }
+            />
+
+            <Route 
+              path="/profile" 
+              component={() => 
+                <UserProfile isLoggedIn={this.state.isLoggedIn} /> 
+              } 
+            />
+
+            <Route 
+              path="/signup" 
+              component={() => 
+                <SignUp 
+                  msg={this.state.msg} 
+                  redirect={this.state.redirect}
+                  setMsg={this.notificationMsg}
+                  setRedirect={this.setRedirect} />
+              } 
+            />
+
+            <Route 
+              path="/signin" 
+              component={() => 
+                <SignIn 
+                  msg={this.state.msg} 
+                  setMsg={this.notificationMsg}/>
+              } 
+            />
           </Switch>
       </BrowserRouter>
     );

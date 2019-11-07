@@ -28,7 +28,7 @@ class Todo extends React.Component {
                 });
             }
             this.setState({ edit: false, currentItemEditId: "" });
-            this.props.getTodos({...res.data});
+            this.props.getAllTodos({...res.data});
         } catch (err) {
             console.log(err);
         }
@@ -45,7 +45,7 @@ class Todo extends React.Component {
     deleteTodo = async (e) => {
         try {
             const res = await axios.delete(`http://localhost:5000/todo/${e.target.value}`);
-            this.props.getTodos({...res.data});
+            this.props.getAllTodos({...res.data});
         } catch (err) {
             console.log(err);
         }
@@ -59,7 +59,7 @@ class Todo extends React.Component {
                 <h1>{ this.state.edit ? "Edit Todo" : "Create Todo" }</h1>
                 <form onSubmit={e => { this.getTodoInfo(e); e.target.reset(); }}>
                     <input type="text" name="todo" placeholder="Enter todo" required />
-                    { this.state.edit ? <button>Edit</button> : <button>Add</button> }
+                    { this.state.edit ? <span><button>Edit</button><button onClick={() => this.setState({edit: false}) }>Cancel</button></span> : <button>Add</button> }
                 </form>
                 <ol>
                     {

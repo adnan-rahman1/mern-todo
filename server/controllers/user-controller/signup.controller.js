@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
         if (isUserExist)
             res.send({
                 msg: "User already exists",
-                duplicateUser: true
+                redirect: false
             });
         else {
             // Generate Encrypt Password
@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
                 lastName: newUser.lastName,
                 email: newUser.email,
                 msg: "You successfully registered",
-                duplicateUser: false
+                redirect: true
             });
         }
         
