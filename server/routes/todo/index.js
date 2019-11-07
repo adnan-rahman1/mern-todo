@@ -10,7 +10,7 @@ const deleteSingleTodoController = require('../../controllers/todo-controller/de
 
 // CREATE TODO
 router.post('/create', createTodoController);
-router.get("/readall", getAllTodoController);
+router.get("/", getAllTodoController);
 router.delete("/:id", deleteSingleTodoController);
 router.put("/:id", updateTodoController);
 

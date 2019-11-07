@@ -18,7 +18,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       msg: "",
-      isLoggedIn: true,
+      isLoggedIn: false,
       todos: [],
       firstName: "",
       lastName: "",
@@ -27,9 +27,17 @@ class App extends React.Component {
   }
 
   componentDidMount = async () => {
-        let todos = await axios.get("http://localhost:5000/todo/readall");
-        this.setState({ ...todos.data });
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.setState({ isLoggedIn: true });
+    }
+
+    let res = await axios.get("http://localhost:5000/todo", { 
+      headers: {"Authorization" : token } 
+    });
+    this.setState({ ...res.data });
   }
+
 
   setRedirect = () => {
     this.setState({ redirect: !this.state.redirect });
@@ -37,6 +45,10 @@ class App extends React.Component {
 
   notificationMsg = (msg) => {
     this.setState({ msg });
+  }
+
+  signIn = () => {
+    this.setState({ isLoggedIn: true });
   }
 
   signOut = () => {
@@ -51,7 +63,11 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-          <Nav isLoggedIn={this.state.isLoggedIn} signOut={this.signOut} setMsg={this.notificationMsg} />
+          <Nav 
+            isLoggedIn={this.state.isLoggedIn} 
+            signOut={this.signOut} 
+            setMsg={this.notificationMsg}
+          />
           <Switch>
             <Route 
               exact 
@@ -75,7 +91,8 @@ class App extends React.Component {
             <Route 
               path="/profile" 
               component={() => 
-                <UserProfile isLoggedIn={this.state.isLoggedIn} /> 
+                <UserProfile 
+                  isLoggedIn={this.state.isLoggedIn} /> 
               } 
             />
 
@@ -86,7 +103,8 @@ class App extends React.Component {
                   msg={this.state.msg} 
                   redirect={this.state.redirect}
                   setMsg={this.notificationMsg}
-                  setRedirect={this.setRedirect} />
+                  setRedirect={this.setRedirect}
+                  isLoggedIn={this.state.isLoggedIn} />
               } 
             />
 
@@ -94,6 +112,8 @@ class App extends React.Component {
               path="/signin" 
               component={() => 
                 <SignIn 
+                  signIn={this.signIn}
+                  isLoggedIn={this.state.isLoggedIn}
                   msg={this.state.msg} 
                   setMsg={this.notificationMsg}/>
               } 

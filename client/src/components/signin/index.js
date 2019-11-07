@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 const getSignInInfo = async (props, e) => {
@@ -9,13 +10,17 @@ const getSignInInfo = async (props, e) => {
             password: e.target.password.value
         });
         props.setMsg(res.data.msg)
-        localStorage.setItem('token', res.data.token);
+        if(res.data.token) {
+            localStorage.setItem('token', res.data.token);
+            props.signIn();
+        }
     } catch(err) {
         props.setMsg('There is something wrong. Try again...');
     }
 }
 const SignIn = (props) => (
     <div>
+        { props.isLoggedIn && <Redirect to="/" /> }
         <h2>Sign In</h2>
         <p>{ props.msg || "Please sign in to continue" }</p>
         <form 
@@ -28,6 +33,7 @@ const SignIn = (props) => (
             <input type="password" name="password" placeholder="Password" required/><br/>
             <button>Sign In</button>
         </form>
+        
     </div>
 )
 

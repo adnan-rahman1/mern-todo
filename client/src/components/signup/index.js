@@ -31,8 +31,9 @@ const SignUp = (props) => (
             <input type="password" name="password" placeholder="Password" required/><br/>
             <button>Sign Up</button>
         </form>
-        {   
-            props.redirect && <Redirect to={{ pathname: "/signin", redirect: props.setRedirect() }} /> 
+        { 
+            props.isLoggedIn ? <Redirect to="/" /> :
+            ( props.redirect && <Redirect to={{ pathname: "/signin", redirect: props.setRedirect() }} /> )
         }
     </div>
 )
