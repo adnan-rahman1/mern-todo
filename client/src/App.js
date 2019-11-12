@@ -27,10 +27,12 @@ class App extends React.Component {
   }
 
   componentDidMount = async () => {
-    const token = localStorage.getItem('token');
+    let token = localStorage.getItem('token');
     if (token) {
       this.setState({ isLoggedIn: true });
     }
+    else
+      token = "";
 
     let res = await axios.get("http://localhost:5000/todo", { 
       headers: {"Authorization" : token } 
@@ -47,13 +49,18 @@ class App extends React.Component {
     this.setState({ msg });
   }
 
-  signIn = () => {
-    this.setState({ isLoggedIn: true });
+  signIn = (firstName, lastName) => {
+    this.setState({ isLoggedIn: true, firstName, lastName });
   }
 
   signOut = () => {
     localStorage.removeItem('token');
-    this.setState({ isLoggedIn: false });
+    this.setState({ 
+      isLoggedIn: false, 
+      firstName: "", 
+      lastName: "",
+      msg: ""
+    });
   }
 
   getAllTodos = (todos) => {
@@ -92,7 +99,9 @@ class App extends React.Component {
               path="/profile" 
               component={() => 
                 <UserProfile 
-                  isLoggedIn={this.state.isLoggedIn} /> 
+                  isLoggedIn={this.state.isLoggedIn}
+                  firstName={this.state.firstName}
+                  lastName={this.state.lastName} /> 
               } 
             />
 

@@ -12,7 +12,8 @@ const getSignInInfo = async (props, e) => {
         props.setMsg(res.data.msg)
         if(res.data.token) {
             localStorage.setItem('token', res.data.token);
-            props.signIn();
+            const { firstName, lastName } = res.data;
+            props.signIn(firstName, lastName);
         }
     } catch(err) {
         props.setMsg('There is something wrong. Try again...');

@@ -6,6 +6,7 @@ const auth = require('../middleware/auth');
 const signUpController = require('../../controllers/user-controller/signup.controller');
 const signInController = require('../../controllers/user-controller/signin.controller');
 
+
 // SIGN UP
 router.post('/signup', signUpController);
 

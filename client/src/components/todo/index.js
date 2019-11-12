@@ -14,13 +14,14 @@ class Todo extends React.Component {
     }
 
     getTodoInfo = async (e) => {
+        const token = localStorage.getItem('token');
         e.preventDefault();
         try {
             let res = "";
             if (!this.state.edit){
                 res = await axios.post("http://localhost:5000/todo/create/", {
-                    title: e.target.todo.value
-                });
+                    title: e.target.todo.value,
+                }, { headers: {"Authorization" : token }});
             }
             else {
                 res = await axios.put(`http://localhost:5000/todo/${this.state.currentItemEditId}`, {

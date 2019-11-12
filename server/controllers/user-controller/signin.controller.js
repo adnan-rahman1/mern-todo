@@ -12,8 +12,8 @@ const checkIfPassMatch = async (reqPassword, password) => {
 // End
 
 // Generate JSON WEB TOKEN
-const generateWebToken = async (id) => {
-    return await jwt.sign({ id }, process.env.JWT_PRIVATE_KEY ); // return jwt token
+const generateWebToken = async (id, firstName, lastName) => {
+    return await jwt.sign({ id,firstName, lastName }, process.env.JWT_PRIVATE_KEY ); // return jwt token
 }
 // END
 
@@ -35,11 +35,12 @@ module.exports = async (req, res) => {
                 });
             }
             else {
-                const token = await generateWebToken(_id); // Generate JSON WEB TOKEN
+                const token = await generateWebToken(_id, firstName, lastName); // Generate JSON WEB TOKEN
                 res.send({
                     firstName,
                     lastName,
                     token,
+                    msg: "You signed in successfully"
                 });
             }
         }
